@@ -1,0 +1,23 @@
+# data & artifacts (large / generated)
+data/raw/*
+data/interim/*
+data/processed/*
+data/synthetic/
+artifacts/models/*
+artifacts/reports/*
+artifacts/predictions/*
+artifacts/synthetic/
+!**/.gitkeep
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# tracking / env
+mlruns/
+.env

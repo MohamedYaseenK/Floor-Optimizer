@@ -1,0 +1,39 @@
+# Main experiment config (real Criteo day files in data/raw/day_<n>.gz).
+seed: 42
+
+paths:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  artifacts_dir: artifacts
+
+data:
+  file_pattern: "day_{day}.gz"
+  max_rows_per_day: 1000000   # head-of-file cap per day; null = read the whole day
+  chunksize: 500000
+
+# Day-level chronological split: train < val < test (validated at load time).
+split:
+  train_days: [0, 1, 2]
+  val_days: [3]
+  test_days: [4]
+
+features:
+  n_hash_features: 1048576    # 2**20 buckets for the hashed logistic-regression model
+  min_category_count: 5       # rarer categories share one "rare" bucket (GBDT encoder)
+
+models:
+  logreg:
+    C: 0.1
+    max_iter: 100
+  lightgbm:
+    n_estimators: 500
+    learning_rate: 0.05
+    num_leaves: 63
+    min_child_samples: 100
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_lambda: 1.0
+    early_stopping_rounds: 30
+
+evaluation:
+  n_calibration_bins: 15
